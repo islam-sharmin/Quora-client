@@ -8,8 +8,9 @@ const Main = () => {
                 <div className='max-w-6xl mx-auto'>
                     <Navbar></Navbar>
                 </div>
+                <div className='border-b border-slate-300'></div>
             </div>
-            <div className='max-w-6xl mx-auto'>
+            <div>
                 <Outlet></Outlet>
             </div>
         </div>
