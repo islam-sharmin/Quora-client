@@ -27,6 +27,7 @@ const AddPost = () => {
 
     const onSubmit = async (data) => {
         console.log(data);
+        const totalVote = parseInt(data.upVote) - parseInt(data.downVote);
         // now send the menu item data to the server with the image api
         const menuItem = {
             name: authorInfo?.name,
@@ -40,6 +41,7 @@ const AddPost = () => {
             tags: data.tags,
             upVote: parseInt(data.upVote),
             downVote: parseInt(data.downVote),
+            totalVote: totalVote,
             postCount: authorInfo.postCount,
             badge: authorInfo.badge,
             comment: ''

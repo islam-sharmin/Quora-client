@@ -25,11 +25,11 @@ const MyProfile = () => {
     }, [axiosSecure, user]);
 
     return (
-        <div className="hero py-6 bg-base-200">
+        <div className="hero py-6 bg-base-200 rounded-xl">
             <div className="hero-content flex-col lg:flex-row">
                 <img src={authorInfo?.photo} className="w-40 h-40 rounded-lg shadow-2xl" />
                 <div className="space-y-2">
-                    <h1 className="text-5xl font-bold">Name: {authorInfo?.name}</h1>
+                    <h2 className="text-2xl font-bold">Name: {authorInfo?.name}</h2>
                     <p className="">Email: {authorInfo?.email}</p>
                     <p className="">Badge: {authorInfo?.badge}</p>
                     <p>Total Post: {post?.length}</p>
