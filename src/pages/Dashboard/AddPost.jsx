@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
-// import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
+import { useEffect, useState } from "react";
 
 
 const AddPost = () => {
@@ -10,20 +10,38 @@ const AddPost = () => {
     const { register, handleSubmit, reset } = useForm();
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
-    
+    const [authorInfo, setAuthorInfo] = useState(null);
+
+    useEffect(() => {
+        // Fetch user information by email when component mounts
+        if (user?.email) {
+            axiosSecure.get(`/users/${user.email}`)
+                .then(response => {
+                    setAuthorInfo(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching user information:', error);
+                });
+        }
+    }, [axiosSecure, user]);
 
     const onSubmit = async (data) => {
         console.log(data);
         // now send the menu item data to the server with the image api
         const menuItem = {
-            name: user?.displayName,
-            image: user?.photoURL,
-            email: user?.email,
+            name: authorInfo?.name,
+            image: authorInfo?.photo,
+            email: authorInfo?.email,
+            authorName: data.authorName,
+            authorImage: data.authorImage,
+            authorEmail: data.authorEmail,
             title: data.title,
             description: data.description,
             tags: data.tags,
             upVote: parseInt(data.upVote),
             downVote: parseInt(data.downVote),
+            postCount: authorInfo.postCount,
+            badge: authorInfo.badge,
             comment: ''
         }
         console.log(menuItem);
@@ -54,13 +72,13 @@ const AddPost = () => {
                             <label className="label">
                                 <span className="label-text font-semibold text-[#118acb]">Author Name</span>
                             </label>
-                            <input {...register("name", { required: true })} type="text" value={user.displayName} className="input input-bordered w-full" />
+                            <input {...register("authorName", { required: true })} type="text" placeholder="Author Name" className="input input-bordered w-full" />
                         </div>
                         <div className="form-control flex-1">
                             <label className="label">
                                 <span className="label-text font-semibold text-[#118acb]">Author Image</span>
                             </label>
-                            <input {...register("image", { required: true })} type="text" value={user.photoURL} className="input input-bordered w-full" />
+                            <input {...register("authorImage", { required: true })} type="text" placeholder="Author Image" className="input input-bordered w-full" />
                         </div>
                     </div>
                     {/* author email & post title */}
@@ -69,7 +87,7 @@ const AddPost = () => {
                             <label className="label">
                                 <span className="label-text font-semibold text-[#118acb]">Author Email</span>
                             </label>
-                            <input name="email" type="text" value={user.email} className="input input-bordered" required />
+                            <input {...register("authorEmail", { required: true })} type="text" placeholder="Author Email" className="input input-bordered w-full" />
                         </div>
                         <div className="form-control flex-1">
                             <label className="label">
@@ -98,6 +116,12 @@ const AddPost = () => {
                                 <option>React</option>
                                 <option>Python</option>
                                 <option>CSS</option>
+                                <option>Node.js</option>
+                                <option>APIs</option>
+                                <option>Docker</option>
+                                <option>Machine Learning</option>
+                                <option>Cyber Security</option>
+                                <option>Vue.js</option>
                             </select>
                         </div>
                         <div className="form-control flex-1">

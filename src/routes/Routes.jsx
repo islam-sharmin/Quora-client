@@ -7,6 +7,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import MyProfile from "../pages/Dashboard/MyProfile";
 import AddPost from "../pages/Dashboard/AddPost";
 import PrivateRoute from "./PrivateRoute";
+import MyPost from "../pages/Dashboard/MyPost";
 
 
 export const router = createBrowserRouter([
@@ -33,12 +34,16 @@ export const router = createBrowserRouter([
     element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
     children: [
       {
-        path: 'myProfile/:email',
+        path: 'myProfile',
         element: <MyProfile></MyProfile>
       },
       {
         path: 'addPost',
         element: <AddPost></AddPost>
+      },
+      {
+        path: 'myPost',
+        element: <MyPost></MyPost>
       }
     ]
   }
