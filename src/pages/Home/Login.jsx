@@ -4,14 +4,17 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import 'animate.css';
+import { FaGoogle } from "react-icons/fa";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 
 const Login = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { signIn } = useAuth();
+    const { signIn, googleSignIn } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const axiosPublic = useAxiosPublic();
 
     const from = location.state?.from?.pathname || "/";
     console.log('state in the location login', location.state);
@@ -45,6 +48,25 @@ const Login = () => {
             .catch(error => console.error(error))
     } 
 
+    const handleGoogleSignIn = () => {
+        googleSignIn()
+            .then(result => {
+                console.log(result.user);
+                const userInfo = {
+                    email: result.user?.email,
+                    name: result.user?.displayName,
+                    photo: result.user?.photoURL,
+                    badge: 'bronze',
+                    postCount: 0
+                }
+                axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        console.log(res.data);
+                        navigate('/');
+                    })
+            })
+    }
+
     return (
         <div className="max-w-6xl mx-auto">
             <div className="hero min-h-screen">
@@ -72,6 +94,9 @@ const Login = () => {
                                 <input className="btn bg-[#118acb] text-white" type="submit" value="Login" />
                             </div>
                         </form>
+                        <div className="w-full px-7">
+                            <button onClick={handleGoogleSignIn} className="btn bg-[#118acb] w-full text-white">Login with Google <FaGoogle /></button>
+                        </div>
                         <p className='text-center mb-6'><small>New here? <Link to="/signup" className='text-sky-600 underline'>Please Register</Link></small></p>
                         {/* <SocialLogin></SocialLogin> */}
                     </div>

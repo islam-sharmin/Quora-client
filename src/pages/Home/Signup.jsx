@@ -5,12 +5,13 @@ import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import 'animate.css';
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { FaGoogle } from "react-icons/fa";
 
 
 const Signup = () => {
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    const { createUser, updateUserProfile } = useAuth();
+    const { createUser, updateUserProfile, googleSignIn } = useAuth();
     const navigate = useNavigate();
     const axiosPublic = useAxiosPublic();
 
@@ -27,8 +28,10 @@ const Signup = () => {
                         // create user entry in the database
                         const userInfo = {
                             name: data.name,
+                            photo: data.photoURL,
                             email: data.email,
-                            badge: 'bronze'
+                            badge: 'bronze',
+                            postCount: 0
                         }
                         axiosPublic.post('/users', userInfo)
                             .then(res => {
@@ -57,6 +60,25 @@ const Signup = () => {
                             })
                     })
                     .catch(error => console.log(error))
+            })
+    }
+
+    const handleGoogleSignIn = () => {
+        googleSignIn()
+            .then(result => {
+                console.log(result.user);
+                const userInfo = {
+                    email: result.user?.email,
+                    name: result.user?.displayName,
+                    photo: result.user?.photoURL,
+                    badge: 'bronze',
+                    postCount: 0
+                }
+                axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        console.log(res.data);
+                        navigate('/');
+                    })
             })
     }
 
@@ -105,6 +127,9 @@ const Signup = () => {
                                 <input className="btn bg-[#118acb] text-white" type="submit" value="Sign Up" />
                             </div>
                         </form>
+                        <div className="w-full px-7">
+                            <button onClick={handleGoogleSignIn} className="btn bg-[#118acb] w-full text-white">Sign Up with Google <FaGoogle /></button>
+                        </div>
                         <p className='text-center mb-6'><small>Already Have an Account? <Link to="/login" className='text-sky-600 underline'>Please Login</Link></small></p>
                     </div>
                 </div>
