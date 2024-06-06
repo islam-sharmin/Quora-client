@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import SectionTitle from "../../shared/SectionTitle";
+import { Link } from "react-router-dom";
 
 
 const Posts = () => {
@@ -23,7 +24,7 @@ const Posts = () => {
                 {
                     post.map(item =>
                         <div key={item._id} className="card bg-base-100 shadow-xl">
-                            <figure><img className="h-64 w-full p-4" src={item.authorImage} alt="Shoes" /></figure>
+                            <figure><img className="h-64 w-72 p-4" src={item.authorImage} alt="Shoes" /></figure>
                             <div className="card-body">
                                 <h2 className="card-title">{item.title}</h2>
                                 <div className="flex justify-between">
@@ -35,7 +36,7 @@ const Posts = () => {
                                 <p>Vote Count: {item.totalVote}</p>
                                 </div>
                                 <div className="card-actions">
-                                    <button className="btn w-full bg-[#118acb] text-white">View Details</button>
+                                    <Link className="w-full" to={`/postDetails/${item._id}`}><button className="btn w-full bg-[#118acb] text-white">View Details</button></Link>
                                 </div>
                             </div>
                         </div>
