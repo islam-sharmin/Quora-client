@@ -57,7 +57,7 @@ const MyPost = () => {
                                     <button className="btn bg-[#d2e3fd] btn-md">Comment</button>
                                     </td>
                                     <td>
-                                    <button onClick={() => handleDeletePost(post)} className="btn btn-error btn-md"><FaTrashAlt /></button>
+                                    <button onClick={() => handleDeletePost(item)} className="btn btn-error btn-md"><FaTrashAlt /></button>
                                     </td>
                                 </tr>)
                             }

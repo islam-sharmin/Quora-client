@@ -48,7 +48,7 @@ const AddPost = () => {
             totalVote: totalVote,
             // postCount: post.length,
             badge: authorInfo.badge,
-            comment: ''
+            commentCount: 0
         }
         console.log(menuItem);
         // 
