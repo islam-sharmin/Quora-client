@@ -10,6 +10,7 @@ import PrivateRoute from "./PrivateRoute";
 import MyPost from "../pages/Dashboard/MyPost";
 import Membership from "../pages/Home/Membership";
 import PostDetails from "../pages/Home/PostDetails";
+import ManageUser from "../pages/Dashboard/ManageUser";
 
 
 export const router = createBrowserRouter([
@@ -55,6 +56,11 @@ export const router = createBrowserRouter([
       {
         path: 'myPost',
         element: <MyPost></MyPost>
+      },
+      // admin
+      {
+        path: 'users',
+        element: <ManageUser></ManageUser>
       }
     ]
   }

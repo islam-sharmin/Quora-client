@@ -1,6 +1,6 @@
 import { BsPostcardHeart } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaUsers } from "react-icons/fa";
 import { MdOutlinePostAdd } from "react-icons/md";
 import { NavLink, Outlet } from "react-router-dom";
 
@@ -14,6 +14,7 @@ const Dashboard = () => {
                     <li><NavLink to="/dashboard/myProfile"><CgProfile className="text-xl" /> My Profile</NavLink></li>
                     <li><NavLink to="/dashboard/addPost"><MdOutlinePostAdd className="text-xl" /> Add Post</NavLink></li>
                     <li><NavLink to="/dashboard/myPost"><BsPostcardHeart className="text-xl" /> My Posts</NavLink></li>
+                    <li><NavLink to="/dashboard/users"><FaUsers /> Manage Users</NavLink></li>
 
                     {/* {
                         isAdmin ? <>
