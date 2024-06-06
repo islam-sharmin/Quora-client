@@ -8,6 +8,7 @@ import MyProfile from "../pages/Dashboard/MyProfile";
 import AddPost from "../pages/Dashboard/AddPost";
 import PrivateRoute from "./PrivateRoute";
 import MyPost from "../pages/Dashboard/MyPost";
+import Membership from "../pages/Home/Membership";
 
 
 export const router = createBrowserRouter([
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: 'signup',
         element: <Signup></Signup>
+      },
+      {
+        path: 'membership',
+        element: <Membership></Membership>
       }
     ]
   },

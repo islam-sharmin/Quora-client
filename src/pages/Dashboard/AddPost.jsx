@@ -3,6 +3,8 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
+import usePost from "../../hooks/usePost";
+import { useNavigate } from "react-router-dom";
 
 
 const AddPost = () => {
@@ -11,6 +13,8 @@ const AddPost = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [authorInfo, setAuthorInfo] = useState(null);
+    const [post, refetch] = usePost();
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Fetch user information by email when component mounts
@@ -42,7 +46,7 @@ const AddPost = () => {
             upVote: parseInt(data.upVote),
             downVote: parseInt(data.downVote),
             totalVote: totalVote,
-            postCount: authorInfo.postCount,
+            // postCount: post.length,
             badge: authorInfo.badge,
             comment: ''
         }
@@ -60,91 +64,99 @@ const AddPost = () => {
                 timer: 1500
             });
         }
+        refetch();
+    }
 
+    const handleMembershipRedirect = () => {
+        navigate('/membership'); // redirect to Membership Page
     }
 
     return (
         <div>
             <h2 className="mt-8 underline text-[#118acb] font-bold text-2xl text-center">Create Assignment</h2>
             <div className="card shrink-0 w-full bg-base-100">
-                <form onSubmit={handleSubmit(onSubmit)} className="card-body">
-                    {/* author name & image */}
-                    <div className="flex flex-col lg:flex-row gap-5">
+            {post.length < 5 ? (
+                    <form onSubmit={handleSubmit(onSubmit)} className="card-body">
+                        {/* author name & image */}
+                        <div className="flex flex-col lg:flex-row gap-5">
+                            <div className="form-control flex-1">
+                                <label className="label">
+                                    <span className="label-text font-semibold text-[#118acb]">Author Name</span>
+                                </label>
+                                <input {...register("authorName", { required: true })} type="text" placeholder="Author Name" className="input input-bordered w-full" />
+                            </div>
+                            <div className="form-control flex-1">
+                                <label className="label">
+                                    <span className="label-text font-semibold text-[#118acb]">Author Image</span>
+                                </label>
+                                <input {...register("authorImage", { required: true })} type="text" placeholder="Author Image" className="input input-bordered w-full" />
+                            </div>
+                        </div>
+                        {/* author email & post title */}
+                        <div className="flex flex-col lg:flex-row gap-5">
+                            <div className="form-control flex-1">
+                                <label className="label">
+                                    <span className="label-text font-semibold text-[#118acb]">Author Email</span>
+                                </label>
+                                <input {...register("authorEmail", { required: true })} type="text" placeholder="Author Email" className="input input-bordered w-full" />
+                            </div>
+                            <div className="form-control flex-1">
+                                <label className="label">
+                                    <span className="label-text font-semibold text-[#118acb]">Post Title</span>
+                                </label>
+                                <input {...register("title", { required: true })} type="text" placeholder="Post Title" className="input input-bordered w-full" />
+                            </div>
+                        </div>
+                        {/* Post description */}
                         <div className="form-control flex-1">
                             <label className="label">
-                                <span className="label-text font-semibold text-[#118acb]">Author Name</span>
+                                <span className="label-text font-semibold text-[#118acb]">Post Description</span>
                             </label>
-                            <input {...register("authorName", { required: true })} type="text" placeholder="Author Name" className="input input-bordered w-full" />
+                            <input {...register("description", { required: true })} type="text" placeholder="Post Description" className="input input-bordered w-full" />
                         </div>
-                        <div className="form-control flex-1">
-                            <label className="label">
-                                <span className="label-text font-semibold text-[#118acb]">Author Image</span>
-                            </label>
-                            <input {...register("authorImage", { required: true })} type="text" placeholder="Author Image" className="input input-bordered w-full" />
+                        {/* tags, upVote & downVote */}
+                        <div className="flex flex-col lg:flex-row gap-5">
+                            {/* level marks and date */}
+                            <div className="form-control flex-1">
+                                <label className="label">
+                                    <span className="label-text font-semibold text-[#118acb]">Tags</span>
+                                </label>
+                                <select defaultValue="default" {...register("tags", { required: true })} className="select select-bordered w-full">
+                                    <option disabled selected>tags</option>
+                                    <option>JavaScript</option>
+                                    <option>React</option>
+                                    <option>Web Development</option>
+                                    <option>Node.js</option>
+                                    <option>APIs</option>
+                                    <option>Docker</option>
+                                    <option>Machine Learning</option>
+                                    <option>Cyber Security</option>
+                                    <option>Vue.js</option>
+                                </select>
+                            </div>
+                            <div className="form-control flex-1">
+                                <label className="label">
+                                    <span className="label-text font-semibold text-[#118acb]">Up Vote</span>
+                                </label>
+                                <input {...register("upVote", { required: true })} type="number" placeholder="Up Vote" defaultValue="0" className="input input-bordered w-full" />
+                            </div>
+                            <div className="form-control flex-1">
+                                <label className="label">
+                                    <span className="label-text font-semibold text-[#118acb]">Down Vote</span>
+                                </label>
+                                <input {...register("downVote", { required: true })} type="number" placeholder="Down Vote" defaultValue="0" className="input input-bordered w-full" />
+                            </div>
                         </div>
+                        <div className="form-control mt-6">
+                            <input type="submit" className="btn text-black bg-[#118acb]" value="Add Post" />
+                        </div>
+                    </form>
+                ) : (
+                    <div className="text-center p-6">
+                        <p className="mb-4 text-lg font-semibold text-red-600">You have reached the maximum number of posts allowed for a normal user.</p>
+                        <button onClick={handleMembershipRedirect} className="btn text-black bg-[#118acb]">Become a Member</button>
                     </div>
-                    {/* author email & post title */}
-                    <div className="flex flex-col lg:flex-row gap-5">
-                        <div className="form-control flex-1">
-                            <label className="label">
-                                <span className="label-text font-semibold text-[#118acb]">Author Email</span>
-                            </label>
-                            <input {...register("authorEmail", { required: true })} type="text" placeholder="Author Email" className="input input-bordered w-full" />
-                        </div>
-                        <div className="form-control flex-1">
-                            <label className="label">
-                                <span className="label-text font-semibold text-[#118acb]">Post Title</span>
-                            </label>
-                            <input {...register("title", { required: true })} type="text" placeholder="Post Title" className="input input-bordered w-full" />
-                        </div>
-                    </div>
-                    {/* Post description */}
-                    <div className="form-control flex-1">
-                        <label className="label">
-                            <span className="label-text font-semibold text-[#118acb]">Post Description</span>
-                        </label>
-                        <input {...register("description", { required: true })} type="text" placeholder="Post Description" className="input input-bordered w-full" />
-                    </div>
-                    {/* tags, upVote & downVote */}
-                    <div className="flex flex-col lg:flex-row gap-5">
-                        {/* level marks and date */}
-                        <div className="form-control flex-1">
-                            <label className="label">
-                                <span className="label-text font-semibold text-[#118acb]">Tags</span>
-                            </label>
-                            <select defaultValue="default" {...register("tags", { required: true })} className="select select-bordered w-full">
-                                <option disabled selected >tags</option>
-                                <option>JavaScript</option>
-                                <option>React</option>
-                                <option>Python</option>
-                                <option>CSS</option>
-                                <option>Node.js</option>
-                                <option>APIs</option>
-                                <option>Docker</option>
-                                <option>Machine Learning</option>
-                                <option>Cyber Security</option>
-                                <option>Vue.js</option>
-                            </select>
-                        </div>
-                        <div className="form-control flex-1">
-                            <label className="label">
-                                <span className="label-text font-semibold text-[#118acb]">Up Vote</span>
-                            </label>
-                            <input {...register("upVote", { required: true })} type="number" placeholder="Up Vote" defaultValue="0" className="input input-bordered w-full" />
-                        </div>
-                        <div className="form-control flex-1">
-                            <label className="label">
-                                <span className="label-text font-semibold text-[#118acb]">Down Vote</span>
-                            </label>
-                            <input {...register("downVote", { required: true })} type="number" placeholder="Down Vote" defaultValue="0" className="input input-bordered w-full" />
-                        </div>
-
-                    </div>
-
-                    <div className="form-control mt-6">
-                        <input type="submit" className="btn text-black bg-[#118acb]" value="Add Post" />
-                    </div>
-                </form>
+                )}
             </div>
         </div>
     );
