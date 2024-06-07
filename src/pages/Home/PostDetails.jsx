@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { useState } from "react";
 
 
 const PostDetails = () => {
@@ -13,6 +14,7 @@ const PostDetails = () => {
     const { register, handleSubmit, reset } = useForm();
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+    const [activeButton, setActiveButton] = useState(null);
 
     const onSubmit = async (data) => {
         const commentInfo = {
@@ -37,6 +39,27 @@ const PostDetails = () => {
         }
     }
 
+    const handleUpvote = async (postId) => {
+        try {
+            await axiosSecure.patch(`/posts/upvote/${postId}`);
+            setActiveButton('upvote');
+            // Optionally, you can update the UI to reflect the upvote
+        } catch (error) {
+            console.error('Error upvoting post:', error);
+        }
+    };
+
+    // Function to handle downvoting a post
+    const handleDownvote = async (postId) => {
+        try {
+            await axiosSecure.patch(`/posts/downvote/${postId}`);
+            setActiveButton('downvote');
+            // Optionally, you can update the UI to reflect the downvote
+        } catch (error) {
+            console.error('Error downvoting post:', error);
+        }
+    };
+
     return (
         <div>
             <div className="hero mt-8">
@@ -51,31 +74,41 @@ const PostDetails = () => {
                         <p><span className="font-bold">Post Time: </span></p>
                         <hr />
                         <div className="flex justify-start gap-6">
-                            <button className="btn">Up Vote <AiFillLike /></button>
-                            <button className="btn">Down Vote <AiFillDislike /></button>
+                            <button
+                                onClick={() => handleUpvote(details._id)}
+                                className={`btn ${activeButton === 'upvote' ? 'bg-sky-500 text-white' : ''}`}
+                            >
+                                Up Vote <AiFillLike />
+                            </button>
+                            <button
+                                onClick={() => handleDownvote(details._id)}
+                                className={`btn ${activeButton === 'downvote' ? 'bg-red-500 text-white' : ''}`}
+                            >
+                                Down Vote <AiFillDislike />
+                            </button>
                         </div>
                         <div className="flex justify-end gap-6">
                             <a href="#commentId" className="btn text-black bg-[#d2e3fd] mt-5">Comment <FaRegCommentDots /></a>
                             <Link><button className="btn text-white bg-[#118acb] mt-5">Share <FaShare /></button></Link>
                         </div>
                     </div>
-                </div>  
+                </div>
             </div>
             <div className="flex">
                 <div className="w-[45%]"></div>
                 <form onSubmit={handleSubmit(onSubmit)} className="card-body" id="commentId">
-            <div className="flex flex-col lg:flex-row items-center">
-                <div className="form-control flex-1">
-                    <label className="label">
-                        <span className="label-text font-semibold text-[#118acb]">Write a Comment</span>
-                    </label>
-                    <div className="join">
-                        <input  {...register("comment")} className="input input-bordered join-item w-full" placeholder="Type here your comment" />
-                        <input type="submit" className="btn join-item text-black bg-[#118acb]" value="Submit" />
+                    <div className="flex flex-col lg:flex-row items-center">
+                        <div className="form-control flex-1">
+                            <label className="label">
+                                <span className="label-text font-semibold text-[#118acb]">Write a Comment</span>
+                            </label>
+                            <div className="join">
+                                <input  {...register("comment")} className="input input-bordered join-item w-full" placeholder="Type here your comment" />
+                                <input type="submit" className="btn join-item text-black bg-[#118acb]" value="Submit" />
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </form>
+                </form>
             </div>
         </div>
     );
