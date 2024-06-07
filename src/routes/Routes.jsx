@@ -11,6 +11,7 @@ import MyPost from "../pages/Dashboard/MyPost";
 import Membership from "../pages/Home/Membership";
 import PostDetails from "../pages/Home/PostDetails";
 import ManageUser from "../pages/Dashboard/ManageUser";
+import AdminRoute from "./AdminRoute";
 
 
 export const router = createBrowserRouter([
@@ -25,7 +26,7 @@ export const router = createBrowserRouter([
       {
         path: 'postDetails/:id',
         element: <PrivateRoute><PostDetails></PostDetails></PrivateRoute>,
-        loader: ({params}) => fetch(`http://localhost:5000/posts/${params.id}`)
+        loader: ({params}) => fetch(`http://localhost:5000/posts/single/${params.id}`)
       },
       {
         path:'login',
@@ -47,20 +48,20 @@ export const router = createBrowserRouter([
     children: [
       {
         path: 'myProfile',
-        element: <MyProfile></MyProfile>
+        element: <PrivateRoute><MyProfile></MyProfile></PrivateRoute>
       },
       {
         path: 'addPost',
-        element: <AddPost></AddPost>
+        element: <PrivateRoute><AddPost></AddPost></PrivateRoute>
       },
       {
         path: 'myPost',
-        element: <MyPost></MyPost>
+        element: <PrivateRoute><MyPost></MyPost></PrivateRoute>
       },
       // admin
       {
         path: 'manageUsers',
-        element: <ManageUser></ManageUser>
+        element: <AdminRoute><ManageUser></ManageUser></AdminRoute>
       }
     ]
   }

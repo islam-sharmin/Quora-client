@@ -17,6 +17,9 @@ const Dashboard = () => {
             {/* dashboard side bar */}
             <div className="w-64 min-h-screen bg-[#d2e3fd]">
                 <ul className="menu p-4">
+                    {/* <li><NavLink to="/dashboard/myProfile"><CgProfile className="text-xl" /> My Profile</NavLink></li>
+                    <li><NavLink to="/dashboard/addPost"><MdOutlinePostAdd className="text-xl" /> Add Post</NavLink></li>
+                    <li><NavLink to="/dashboard/myPost"><BsPostcardHeart className="text-xl" /> My Posts</NavLink></li> */}
                     {
                         isAdmin ? <>
                             <li><NavLink to="/dashboard/adminProfile"><CgProfile className="text-xl" /> Admin Profile</NavLink></li>

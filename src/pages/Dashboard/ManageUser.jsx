@@ -43,7 +43,7 @@ const ManageUser = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axiosSecure.delete(`/users/${user._id}`)
+                axiosSecure.delete(`/users/single/${user._id}`)
                     .then(res => {
                         if (res.data.deletedCount > 0) {
                             refetch();
@@ -60,9 +60,16 @@ const ManageUser = () => {
 
     return (
         <div>
-            <div className="flex justify-evenly my-4">
-                <h2 className="text-3xl">All Users</h2>
+            <div className="flex justify-start my-4">
                 <h2 className="text-3xl">Total Users: {users.length}</h2>
+            </div>
+            <div className="flex justify-end my-4">
+                <input
+                    type="text"
+                    placeholder="Search by username"
+                    className="input input-bordered"
+                />
+                <button className="btn btn-primary ml-2">Search</button>
             </div>
             <div>
                 <div className="overflow-x-auto">

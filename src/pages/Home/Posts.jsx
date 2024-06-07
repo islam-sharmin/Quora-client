@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../hooks/useAuth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import SectionTitle from "../../shared/SectionTitle";
 import { Link } from "react-router-dom";
@@ -7,10 +6,9 @@ import { Link } from "react-router-dom";
 
 const Posts = () => {
 
-    const axiosPublic = useAxiosPublic()
-    const { user } = useAuth();
+    const axiosPublic = useAxiosPublic();
     const { data: post = [] } = useQuery({
-        queryKey: ['post', user?.email],
+        queryKey: ['post'],
         queryFn: async () => {
             const res = await axiosPublic.get('/posts');
             return res.data;
