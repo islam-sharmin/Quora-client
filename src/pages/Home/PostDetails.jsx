@@ -18,7 +18,7 @@ const PostDetails = () => {
 
     const onSubmit = async (data) => {
         const commentInfo = {
-            name: user?.email,
+            name: user?.displayName,
             title: details.title,
             comment: data.comment
         }
@@ -54,6 +54,16 @@ const PostDetails = () => {
         try {
             await axiosSecure.patch(`/posts/downvote/${postId}`);
             setActiveButton('downvote');
+            // Optionally, you can update the UI to reflect the downvote
+        } catch (error) {
+            console.error('Error downvoting post:', error);
+        }
+    };
+
+    // comment count
+    const handleCommentCount = async (postId) => {
+        try {
+            await axiosSecure.patch(`/posts/count/${postId}`);
             // Optionally, you can update the UI to reflect the downvote
         } catch (error) {
             console.error('Error downvoting post:', error);
@@ -104,7 +114,7 @@ const PostDetails = () => {
                             </label>
                             <div className="join">
                                 <input  {...register("comment")} className="input input-bordered join-item w-full" placeholder="Type here your comment" />
-                                <input type="submit" className="btn join-item text-black bg-[#118acb]" value="Submit" />
+                                <input onClick={() => handleCommentCount(details._id)} type="submit" className="btn  join-item text-black bg-[#118acb]" value="Submit" />
                             </div>
                         </div>
                     </div>

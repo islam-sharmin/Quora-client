@@ -2,6 +2,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import usePost from "../../hooks/usePost";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 
 
 const MyPost = () => {
@@ -36,34 +37,36 @@ const MyPost = () => {
 
     return (
         <div className="overflow-x-auto">
-                    <table className="table table-zebra">
-                        {/* head */}
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Post Title</th>
-                                <th>Number of votes</th>
-                                <th>Comment</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                post.map((item, index) => <tr key={item._id}>
-                                    <th>{index + 1}</th>
-                                    <td>{item.title}</td>
-                                    <td>{item.totalVote}</td>
-                                    <td>
+            <table className="table table-zebra">
+                {/* head */}
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Post Title</th>
+                        <th>Number of votes</th>
+                        <th>Comment</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        post.map((item, index) => <tr key={item._id}>
+                            <th>{index + 1}</th>
+                            <td>{item.title}</td>
+                            <td>{item.totalVote}</td>
+                            <td>
+                                <Link to={`comments/${item.title}`}>
                                     <button className="btn bg-[#d2e3fd] btn-md">Comment</button>
-                                    </td>
-                                    <td>
-                                    <button onClick={() => handleDeletePost(item)} className="btn btn-error btn-md"><FaTrashAlt /></button>
-                                    </td>
-                                </tr>)
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                                </Link>
+                            </td>
+                            <td>
+                                <button onClick={() => handleDeletePost(item)} className="btn btn-error btn-md"><FaTrashAlt /></button>
+                            </td>
+                        </tr>)
+                    }
+                </tbody>
+            </table>
+        </div>
     );
 };
 

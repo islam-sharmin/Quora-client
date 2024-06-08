@@ -13,6 +13,7 @@ import PostDetails from "../pages/Home/PostDetails";
 import ManageUser from "../pages/Dashboard/ManageUser";
 import AdminRoute from "./AdminRoute";
 import MakeAnnouncement from "../pages/Dashboard/MakeAnnouncement";
+import Comments from "../pages/Dashboard/Comments";
 
 
 export const router = createBrowserRouter([
@@ -59,6 +60,12 @@ export const router = createBrowserRouter([
         path: 'myPost',
         element: <PrivateRoute><MyPost></MyPost></PrivateRoute>
       },
+      {
+        path: 'myPost/comments/:title',
+        element: <Comments></Comments>,
+        loader: ({params}) => fetch(`http://localhost:5000/comments/${params.title}`)
+      },
+
       // admin
       {
         path: 'manageUsers',
