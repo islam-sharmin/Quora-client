@@ -2,11 +2,13 @@ import { Link } from "react-router-dom";
 import logo from "../../public/logo.png";
 import { IoMdNotifications } from "react-icons/io";
 import useAuth from "../hooks/useAuth";
+import useAnnouncement from "../hooks/useAnnouncement";
 
 
 const Navbar = () => {
 
     const { user, logOut } = useAuth();
+    const [announcements] = useAnnouncement();
 
     const handleLogOut = () => {
         logOut()
@@ -17,7 +19,13 @@ const Navbar = () => {
     const navOptions = <>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/membership">Membership</Link></li>
-        <li><Link to="/notification">Notification <IoMdNotifications className="text-lg" /></Link></li>
+        <li><Link to="/notification">
+            <button className="flex gap-2">
+                Notification
+                <IoMdNotifications className="text-lg" />
+                ({announcements.length})
+            </button>
+        </Link></li>
     </>
 
     return (
