@@ -110,15 +110,6 @@ const CheckoutForm = () => {
                 }
                 const res = await axiosSecure.post('/payments', payment);
                 console.log(res.data);
-                // if (res.data?.paymentResult?.insertedId) {
-                //     Swal.fire({
-                //         position: "center",
-                //         icon: "success",
-                //         title: 'Payment successfully, your a member now',
-                //         showConfirmButton: false,
-                //         timer: 1500
-                //     });
-                // }
             }
         }
     }

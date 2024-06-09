@@ -12,7 +12,7 @@ const Announcement = () => {
                 announcements.length &&
                 <div id="announcementId">
                     <SectionTitle subHeading="Important!" heading="Announcements"></SectionTitle>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         {
                             announcements.map((announcement, index) => (
                                 <div key={index} className="card bg-base-100 shadow-xl">

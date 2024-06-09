@@ -15,12 +15,15 @@ import AdminRoute from "./AdminRoute";
 import MakeAnnouncement from "../pages/Dashboard/MakeAnnouncement";
 import Comments from "../pages/Dashboard/Comments";
 import ReportedComment from "../pages/Dashboard/ReportedComment";
+import AdminProfile from "../pages/Dashboard/AdminProfile";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path:'/',
@@ -68,6 +71,10 @@ export const router = createBrowserRouter([
       },
 
       // admin
+      {
+        path: 'adminProfile',
+        element: <AdminRoute><AdminProfile></AdminProfile></AdminRoute>
+      },
       {
         path: 'manageUsers',
         element: <AdminRoute><ManageUser></ManageUser></AdminRoute>

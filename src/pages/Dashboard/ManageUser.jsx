@@ -4,11 +4,12 @@ import Swal from "sweetalert2";
 import { FaTrashAlt, FaUsers } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
-
 const ManageUser = () => {
-
     const [searchText, setSearchText] = useState('');
     const [filteredQueries, setFilteredQueries] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
     const axiosSecure = useAxiosSecure();
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
@@ -16,7 +17,7 @@ const ManageUser = () => {
             const res = await axiosSecure.get('/users');
             return res.data;
         }
-    })
+    });
 
     const handleMakeAdmin = user => {
         axiosSecure.patch(`/users/admin/${user._id}`)
@@ -32,8 +33,8 @@ const ManageUser = () => {
                         timer: 1500
                     });
                 }
-            })
-    }
+            });
+    };
 
     const handleDeleteUser = user => {
         Swal.fire({
@@ -56,10 +57,10 @@ const ManageUser = () => {
                                 icon: "success"
                             });
                         }
-                    })
+                    });
             }
         });
-    }
+    };
 
     useEffect(() => {
         const filtered = users.filter(item =>
@@ -74,25 +75,29 @@ const ManageUser = () => {
         setSearchText(text);
     };
 
+    const totalPages = Math.ceil(filteredQueries.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentUsers = filteredQueries.slice(startIndex, startIndex + itemsPerPage);
+
     return (
         <div>
             <div className="flex justify-start my-2">
                 <h2 className="text-3xl font-semibold">Total Users: {users.length}</h2>
             </div>
             <div className="flex justify-end w-full mb-4">
-            <form onSubmit={handleSearch}>
-                <label className="input input-bordered w-full rounded-3xl flex items-center gap-2">
-                    <input
-                        type="text"
-                        name="searchInput"
-                        className="grow"
-                        placeholder="Search by user name"
-                    />
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70">
-                        <path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" />
-                    </svg>
-                </label>
-            </form>
+                <form onSubmit={handleSearch}>
+                    <label className="input input-bordered w-full rounded-3xl flex items-center gap-2">
+                        <input
+                            type="text"
+                            name="searchInput"
+                            className="grow"
+                            placeholder="Search by user name"
+                        />
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70">
+                            <path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" />
+                        </svg>
+                    </label>
+                </form>
             </div>
             <div>
                 <div className="overflow-x-auto">
@@ -109,22 +114,62 @@ const ManageUser = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {
-                                filteredQueries.map((user, index) => <tr key={user._id}>
-                                    <th>{index + 1}</th>
+                            {currentUsers.map((user, index) => (
+                                <tr key={user._id}>
+                                    <th>{startIndex + index + 1}</th>
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
                                     <td>{user.badge}</td>
                                     <td>
-                                        {user.role === 'admin' ? 'Admin' : <button onClick={() => handleMakeAdmin(user)} className="btn bg-[#d2e3fd] btn-md"><FaUsers /></button>}
+                                        {user.role === 'admin' ? 'Admin' : (
+                                            <button onClick={() => handleMakeAdmin(user)} className="btn bg-[#d2e3fd] btn-md">
+                                                <FaUsers />
+                                            </button>
+                                        )}
                                     </td>
                                     <td>
-                                        <button onClick={() => handleDeleteUser(user)} className="btn btn-error btn-md"><FaTrashAlt /></button>
+                                        <button onClick={() => handleDeleteUser(user)} className="btn btn-error btn-md">
+                                            <FaTrashAlt />
+                                        </button>
                                     </td>
-                                </tr>)
-                            }
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
+                </div>
+                <div className="flex justify-center mt-4">
+                    <nav>
+                        <ul className="pagination flex gap-2">
+                            <li>
+                                <button
+                                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                    disabled={currentPage === 1}
+                                    className="btn"
+                                >
+                                    Previous
+                                </button>
+                            </li>
+                            {Array.from({ length: totalPages }, (_, i) => (
+                                <li key={i}>
+                                    <button
+                                        onClick={() => setCurrentPage(i + 1)}
+                                        className={`btn ${currentPage === i + 1 ? 'btn-active' : ''}`}
+                                    >
+                                        {i + 1}
+                                    </button>
+                                </li>
+                            ))}
+                            <li>
+                                <button
+                                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                    disabled={currentPage === totalPages}
+                                    className="btn"
+                                >
+                                    Next
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
