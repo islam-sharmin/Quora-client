@@ -2,10 +2,12 @@ import { useLoaderData } from "react-router-dom";
 import { useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import useAuth from "../../hooks/useAuth";
 
 const Comments = () => {
     const comments = useLoaderData();
     const axiosSecure = useAxiosSecure();
+    const {user} = useAuth();
 
     const [feedbacks, setFeedbacks] = useState(comments.map(() => ({
         feedback: '',
@@ -27,7 +29,8 @@ const Comments = () => {
         const commentId = comments[index]._id; // Get the correct comment ID
         const feedbackData = {
             feed: newFeedbacks[index].feedback,
-            status: 'reported'
+            status: 'reported',
+            feedBacker: user?.displayName
         };
     
         try {

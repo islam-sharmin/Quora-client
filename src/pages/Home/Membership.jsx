@@ -1,9 +1,20 @@
+import { loadStripe } from "@stripe/stripe-js";
+import SectionTitle from "../../shared/SectionTitle";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "./CheckoutForm";
 
+// TODO: 
+const stripePromise = loadStripe(import.meta.env.VITE_Payment_Gateway_PK);
 
 const Membership = () => {
     return (
         <div>
-            <h2>Payment For become a member</h2>
+            <SectionTitle heading="Payment" subHeading="Pay Here To Become a Member"></SectionTitle>
+            <div>
+                <Elements stripe={stripePromise}>
+                    <CheckoutForm></CheckoutForm>
+                </Elements>
+            </div>
         </div>
     );
 };
