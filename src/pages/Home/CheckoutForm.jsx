@@ -82,6 +82,7 @@ const CheckoutForm = () => {
             if (paymentIntent.status === 'succeeded') {
                 console.log('transaction id:', paymentIntent.id);
                 setTransactionId(paymentIntent.id);
+
                 const updateBadge = {
                     badge: authorInfo.badge
                 };
@@ -100,36 +101,63 @@ const CheckoutForm = () => {
                 } catch (error) {
                     console.error('Failed to report comment:', error);
                 }
+
+                const payment = {
+                    transactionId: paymentIntent.id,
+                    email: user.email,
+                    amount: price,
+                    status: 'paid'
+                }
+                const res = await axiosSecure.post('/payments', payment);
+                console.log(res.data);
+                // if (res.data?.paymentResult?.insertedId) {
+                //     Swal.fire({
+                //         position: "center",
+                //         icon: "success",
+                //         title: 'Payment successfully, your a member now',
+                //         showConfirmButton: false,
+                //         timer: 1500
+                //     });
+                // }
             }
         }
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <CardElement
-                options={{
-                    style: {
-                        base: {
-                            fontSize: '16px',
-                            color: '#424770',
-                            '::placeholder': {
-                                color: '#aab7c4',
-                            },
-                        },
-                        invalid: {
-                            color: '#9e2146',
-                        },
-                    },
-                }}
-            />
-            <button type="submit" className="btn btn-sm bg-sky-600 text-white my-4" disabled={!stripe || !clientSecret}>
-                Pay
-            </button>
-            <p className="text-red-600">{error}</p>
-            {transactionId &&
-                <p className="text-green-600">Your transaction id: {transactionId}</p>
+        <div>
+            {
+                transactionId ?
+                    <>
+                        < p className="text-green-600" > Your transaction id: {transactionId}</p >
+                        <p>You are a member now</p>
+                    </>
+                    :
+                    <>
+                        <form onSubmit={handleSubmit}>
+                            <CardElement
+                                options={{
+                                    style: {
+                                        base: {
+                                            fontSize: '16px',
+                                            color: '#424770',
+                                            '::placeholder': {
+                                                color: '#aab7c4',
+                                            },
+                                        },
+                                        invalid: {
+                                            color: '#9e2146',
+                                        },
+                                    },
+                                }}
+                            />
+                            <button type="submit" className="btn btn-sm bg-sky-600 text-white my-4" disabled={!stripe || !clientSecret}>
+                                Pay
+                            </button>
+                            <p className="text-red-600">{error}</p>
+                        </form>
+                    </>
             }
-        </form>
+        </div>
     );
 };
 

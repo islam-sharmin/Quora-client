@@ -6,9 +6,7 @@ import { useEffect, useState } from "react";
 import usePost from "../../hooks/usePost";
 import { useNavigate } from "react-router-dom";
 
-
 const AddPost = () => {
-
     const { register, handleSubmit, reset } = useForm();
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
@@ -74,7 +72,7 @@ const AddPost = () => {
         <div>
             <h2 className="mt-8 underline text-[#118acb] font-bold text-2xl text-center">Create Assignment</h2>
             <div className="card shrink-0 w-full bg-base-100">
-            {post.length < 5 ? (
+            {authorInfo && (authorInfo.badge === 'gold' || post.length < 5) ? (
                     <form onSubmit={handleSubmit(onSubmit)} className="card-body">
                         {/* author name & image */}
                         <div className="flex flex-col lg:flex-row gap-5">
