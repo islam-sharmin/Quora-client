@@ -1,4 +1,5 @@
 import Announcement from "./Announcement";
+import Features from "./Features";
 import Posts from "./Posts";
 
 
@@ -7,6 +8,7 @@ const Home = () => {
         <div>
             <Posts></Posts>
             <Announcement></Announcement>
+            <Features></Features>
         </div>
     );
 };

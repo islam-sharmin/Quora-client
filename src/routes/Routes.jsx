@@ -33,7 +33,7 @@ export const router = createBrowserRouter([
       {
         path: 'postDetails/:id',
         element: <PrivateRoute><PostDetails></PostDetails></PrivateRoute>,
-        loader: ({params}) => fetch(`http://localhost:5000/posts/single/${params.id}`)
+        loader: ({params}) => fetch(`https://quora-server.vercel.app/posts/single/${params.id}`)
       },
       {
         path:'login',
@@ -71,8 +71,8 @@ export const router = createBrowserRouter([
       },
       {
         path: 'myPost/comments/:title',
-        element: <Comments></Comments>,
-        loader: ({params}) => fetch(`http://localhost:5000/comments/${params.title}`)
+        element: <PrivateRoute><Comments></Comments></PrivateRoute>,
+        loader: ({params}) => fetch(`https://quora-server.vercel.app/comments/${params.title}`)
       },
 
       // admin
