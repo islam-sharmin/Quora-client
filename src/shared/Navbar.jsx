@@ -19,13 +19,13 @@ const Navbar = () => {
     const navOptions = <>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/membership">Membership</Link></li>
-        <li><a onClick="document.getElementById('announcementId').scrollIntoView()">
+        <li><Link to="/notification">
             <button className="flex gap-2">
                 Notification
                 <IoMdNotifications className="text-lg" />
                 ({announcements.length})
             </button>
-        </a></li>
+        </Link></li>
     </>
 
     return (

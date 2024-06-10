@@ -17,6 +17,7 @@ import Comments from "../pages/Dashboard/Comments";
 import ReportedComment from "../pages/Dashboard/ReportedComment";
 import AdminProfile from "../pages/Dashboard/AdminProfile";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import Announcement from "../pages/Home/Announcement";
 
 
 export const router = createBrowserRouter([
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: 'membership',
         element: <Membership></Membership>
+      },
+      {
+        path: 'notification',
+        element: <Announcement></Announcement>
       }
     ]
   },

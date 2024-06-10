@@ -1,11 +1,12 @@
 import { AiFillDislike, AiFillLike } from "react-icons/ai";
 import { FaRegCommentDots, FaShare } from "react-icons/fa";
-import { Link, useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import { FacebookShareButton } from "react-share";
 
 
 const PostDetails = () => {
@@ -15,6 +16,7 @@ const PostDetails = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [activeButton, setActiveButton] = useState(null);
+    const shareUrl = 'https://www.facebook.com/'
 
     const onSubmit = async (data) => {
         const commentInfo = {
@@ -99,7 +101,9 @@ const PostDetails = () => {
                         </div>
                         <div className="flex justify-end gap-6">
                             <a href="#commentId" className="btn text-black bg-[#d2e3fd] mt-5">Comment <FaRegCommentDots /></a>
-                            <Link><button className="btn text-white bg-[#118acb] mt-5">Share <FaShare /></button></Link>
+                            <FacebookShareButton url={shareUrl}>
+                                <button className="btn text-white bg-[#118acb] mt-5">Share <FaShare /></button>
+                            </FacebookShareButton>
                         </div>
                     </div>
                 </div>

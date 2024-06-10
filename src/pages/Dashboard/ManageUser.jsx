@@ -75,9 +75,15 @@ const ManageUser = () => {
         setSearchText(text);
     };
 
+    // Calculate pagination values
     const totalPages = Math.ceil(filteredQueries.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentUsers = filteredQueries.slice(startIndex, startIndex + itemsPerPage);
+
+    // Handle page change
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
 
     return (
         <div>
@@ -137,22 +143,25 @@ const ManageUser = () => {
                         </tbody>
                     </table>
                 </div>
-                <div className="flex justify-center mt-4">
-                    <nav>
-                        <ul className="pagination flex gap-2">
+                <div className="flex justify-between items-center mt-4">
+                    <div>
+                        Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredQueries.length)} of {filteredQueries.length} users
+                    </div>
+                    <div>
+                        <ul className="pagination flex items-center space-x-2">
                             <li>
                                 <button
-                                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                    onClick={() => handlePageChange(1)}
                                     disabled={currentPage === 1}
                                     className="btn"
                                 >
-                                    Previous
+                                    &laquo;
                                 </button>
                             </li>
                             {Array.from({ length: totalPages }, (_, i) => (
                                 <li key={i}>
                                     <button
-                                        onClick={() => setCurrentPage(i + 1)}
+                                        onClick={() => handlePageChange(i + 1)}
                                         className={`btn ${currentPage === i + 1 ? 'btn-active' : ''}`}
                                     >
                                         {i + 1}
@@ -161,15 +170,15 @@ const ManageUser = () => {
                             ))}
                             <li>
                                 <button
-                                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                    onClick={() => handlePageChange(totalPages)}
                                     disabled={currentPage === totalPages}
                                     className="btn"
                                 >
-                                    Next
+                                    &raquo;
                                 </button>
                             </li>
                         </ul>
-                    </nav>
+                    </div>
                 </div>
             </div>
         </div>

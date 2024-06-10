@@ -120,10 +120,10 @@ const AddPost = () => {
                                 </label>
                                 <select defaultValue="default" {...register("tags", { required: true })} className="select select-bordered w-full">
                                     <option disabled selected>tags</option>
-                                    <option>JavaScript</option>
-                                    <option>React</option>
                                     <option>Web Development</option>
                                     <option>Programming</option>
+                                    <option>Frameworks</option>
+                                    <option>Security</option>
                                 </select>
                             </div>
                             <div className="form-control flex-1">

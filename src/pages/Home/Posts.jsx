@@ -57,6 +57,10 @@ const Posts = () => {
     return (
         <div>
             <div className='bg-[#d2e3fd] p-5'>
+                <div className="mx-auto text-center md:w-4/12 my-4">
+                    <h3 className="text-3xl text-[#118acb] font-bold uppercase">Quora</h3>
+                    <p className=" mb-2">-- Forum Website for Discussion --</p>
+                </div>
                 <div className='max-w-6xl mx-auto flex justify-between items-center'>
                     <div className="flex-1">
                         <form onSubmit={handleSearch}>
@@ -76,8 +80,8 @@ const Posts = () => {
                     </div>
                     <div>
                         <div className="flex justify-end">
-                            <button 
-                                className="btn bg-[#118acb] text-white" 
+                            <button
+                                className="btn bg-[#118acb] text-white"
                                 onClick={handleSortByPopularity}
                             >
                                 Sort by Popularity
