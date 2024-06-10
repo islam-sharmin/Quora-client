@@ -76,7 +76,7 @@ const Posts = () => {
                                 </svg>
                             </label>
                         </form>
-                        <p><span className="font-bold">Tags:</span> #javascript #react #Web Development</p>
+                        <p><span className="font-bold text-[#118acb]">Tags:</span> #Programming #Frameworks #Web Development #Security</p>
                     </div>
                     <div>
                         <div className="flex justify-end">
