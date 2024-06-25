@@ -37,6 +37,7 @@ const AddPost = () => {
             authorName: data.authorName,
             authorImage: data.authorImage,
             authorEmail: data.authorEmail,
+            authorWebsite: data.authorWebsite,
             title: data.title,
             description: data.description,
             tags: data.tags,
@@ -96,6 +97,12 @@ const AddPost = () => {
                                     <span className="label-text font-semibold text-[#118acb]">Author Email</span>
                                 </label>
                                 <input {...register("authorEmail", { required: true })} type="text" placeholder="Author Email" className="input input-bordered w-full" />
+                            </div>
+                            <div className="form-control flex-1">
+                                <label className="label">
+                                    <span className="label-text font-semibold text-[#118acb]">Author Website</span>
+                                </label>
+                                <input {...register("authorWebsite", { required: true })} type="url" placeholder="Author website" className="input input-bordered w-full" />
                             </div>
                             <div className="form-control flex-1">
                                 <label className="label">

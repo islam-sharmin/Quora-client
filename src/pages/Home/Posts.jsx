@@ -110,6 +110,9 @@ const Posts = () => {
                                         <p>Comment Count: {item.commentCount}</p>
                                         <p>Popularity: {item.totalVote}</p>
                                     </div>
+                                    <div>
+                                        <p>Author Website: {item.authorWebsite}</p>
+                                    </div>
                                     <div className="card-actions">
                                         <Link className="w-full" to={`/postDetails/${item._id}`}><button className="btn w-full bg-[#118acb] text-white">View Details</button></Link>
                                     </div>
