@@ -18,5 +18,10 @@ Password: 123Aa!
 9. User Badges and Achievements
 10. Share with Social Media
 
+## How to run the project:
+1. clone the repository
+2. command 'npm i'
+3. command 'npm run dev'
+
 
 
